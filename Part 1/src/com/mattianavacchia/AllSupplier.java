@@ -1,5 +1,7 @@
 package com.mattianavacchia;
 
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -25,17 +27,21 @@ class AllSupplier {
         carTypePassengers = Collections.unmodifiableMap(aMap);
     }
 
-    void getAllSupplierResult() {
+    void getAllSupplierResult(final String urlApi) throws IOException {
         for (String s: supplier) {
-            parseJSON();
+            parseJSON(getJSONFromUrl(urlApi));
         }
     }
 
-    void parseJSON() {
+    void parseJSON(final JSONObject jsonObject) {
+        if (jsonObject != null) {
 
+        } else {
+            System.out.println("Error");
+        }
     }
 
-    void getJSONFromUrl(final String url) throws IOException {
+    JSONObject getJSONFromUrl(final String url) throws IOException {
         URL urlForGetRequest = new URL(url);
         String readLine = null;
 
@@ -55,9 +61,11 @@ class AllSupplier {
             } in .close();
             // print result
             System.out.println("JSON String Result " + response.toString());
+            return new JSONObject(response);
             //GetAndPost.POSTRequest(response.toString());
         } else {
             System.out.println("GET NOT WORKED");
+            return null;
         }
     }
 }
