@@ -11,11 +11,11 @@ import java.util.*;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         String supplier = "", pickup = "", dropoff = "";
 
         if (args.length == 0) {
-            System.out.println("Provide name of rider. (Dave, Eric, Jeff)");
+            System.out.println("Provide name of rider. (Dave)");
             System.exit(0);
         } else {
             supplier = args[0].toLowerCase();
@@ -63,7 +63,7 @@ public class Main {
         return sb.toString();
     }
 
-    private static JSONObject readJsonFromUrl(final String url) throws IOException, JSONException {
+    private static JSONObject readJsonFromUrl(final String url) throws JSONException {
         try (InputStream is = new URL(url).openStream()) {
             BufferedReader rd = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
             return new JSONObject(readAll(rd));
