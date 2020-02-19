@@ -9,8 +9,8 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-public class Dave {
-    public static void getDaveResults(final String urlApi) {
+class Dave {
+    static void getDaveResults(final String urlApi) {
         parseJSON(Objects.requireNonNull(readJsonFromUrl(urlApi)));
     }
 
