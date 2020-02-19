@@ -11,7 +11,7 @@ import java.util.*;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         String supplier = "", pickup = "", dropoff = "";
 
         if (args.length == 0) {
