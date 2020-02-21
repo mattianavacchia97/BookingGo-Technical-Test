@@ -14,7 +14,7 @@ class Dave {
         parseJSON(Objects.requireNonNull(readJsonFromUrl(urlApi)));
     }
 
-    private static void parseJSON(final JSONObject jsonObject) {
+    private static Map<String, Integer> parseJSON(final JSONObject jsonObject) {
         // get options
         JSONArray options = jsonObject.getJSONArray("options");
         Map<String, Integer> map = new HashMap<>();
@@ -31,6 +31,8 @@ class Dave {
 
         for(Map.Entry<String, Integer> entry : reverseSortedMap.entrySet())
             System.out.println("{" + entry.getKey() + "} - {" + entry.getValue() + "}");
+
+        return reverseSortedMap;
     }
 
     private static JSONObject readJsonFromUrl(final String url) throws JSONException {

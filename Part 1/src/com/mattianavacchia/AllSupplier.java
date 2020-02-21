@@ -20,7 +20,7 @@ class AllSupplier {
     private static Map<String, Pair<String, Integer>> map = new HashMap<>();
     private static int currentSupplier = 0;
 
-    static void getAllSupplierResult(final String urlApi, final String pickup, final String dropoff, final int numberOfPassengers) {
+    static Map<String, Pair<String, Integer>> getAllSupplierResult(final String urlApi, final String pickup, final String dropoff, final int numberOfPassengers) {
         for (int i = 0; i < supplier.length; i++) {
             currentSupplier = i;
             passengers = numberOfPassengers;
@@ -32,6 +32,8 @@ class AllSupplier {
         else
             for(Map.Entry<String, Pair<String, Integer>> entry : map.entrySet())
                 System.out.println("{" + entry.getKey() + "} - {" + entry.getValue().getKey() + "} - {" + entry.getValue().getValue() + "}");
+
+        return map;
     }
 
     private static void parseJSON(final JSONObject jsonObject) {
