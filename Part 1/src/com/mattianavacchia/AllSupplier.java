@@ -78,12 +78,12 @@ class AllSupplier {
                 return new JSONObject(response.toString());
                 //GetAndPost.POSTRequest(response.toString());
             } else {
-                System.out.println("HTTP connection to " + supplier[i] + " did not work.");
+                System.out.println("HTTP connection to " + supplier[i] + " did not work. His cars are not available.");
                 return null;
             }
         } catch (IOException e) {
             if (e instanceof SocketTimeoutException) {
-                System.out.println(supplier[i] + " is not taken into consideration due to lack of response.");
+                System.out.println(supplier[i] + " is not taken into consideration due to lack of response. His cars are not available.");
                 return null;
             }
         }
