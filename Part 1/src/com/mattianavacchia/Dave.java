@@ -17,7 +17,7 @@ class Dave {
     private static void parseJSON(final JSONObject jsonObject) {
         // get options
         JSONArray options = jsonObject.getJSONArray("options");
-        Map<String, Integer> map = new HashMap<>(), sortMap;
+        Map<String, Integer> map = new HashMap<>();
         LinkedHashMap<String, Integer> reverseSortedMap = new LinkedHashMap<>();
 
         for(Object o: options)
