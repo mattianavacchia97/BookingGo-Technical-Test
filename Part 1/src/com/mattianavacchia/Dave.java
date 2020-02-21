@@ -10,8 +10,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 class Dave {
-    static void getDaveResults(final String urlApi) {
-        parseJSON(Objects.requireNonNull(readJsonFromUrl(urlApi)));
+    static Map<String, Integer> getDaveResults(final String urlApi) {
+        return parseJSON(Objects.requireNonNull(readJsonFromUrl(urlApi)));
     }
 
     private static Map<String, Integer> parseJSON(final JSONObject jsonObject) {
