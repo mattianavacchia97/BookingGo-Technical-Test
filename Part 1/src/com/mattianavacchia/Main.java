@@ -1,6 +1,10 @@
 package com.mattianavacchia;
 
+import org.json.JSONObject;
+
 import java.io.IOException;
+
+import static spark.Spark.get;
 
 public class Main {
 
@@ -19,11 +23,30 @@ public class Main {
             dropoff = args[2];
         }
 
-        if (supplier.contains("dave"))
-            Dave.getDaveResults(urlApi + supplier + "?pickup=" + pickup + "&dropoff=" + dropoff);
-        else {
+        String finalPickup = pickup;
+        String finalDropoff = dropoff;
+
+        if (supplier.contains("dave")) {
+            if (args.length == 4) {
+                String finalSupplier = supplier;
+                get("/dave", (req, res)-> {
+                    res.type("application/json");
+                    return MapToJSON.jsonDave(Dave.getDaveResults(urlApi + finalSupplier + "?pickup=" + finalPickup + "&dropoff=" + finalDropoff));
+                });
+            } else
+                Dave.getDaveResults(urlApi + supplier + "?pickup=" + pickup + "&dropoff=" + dropoff);
+        } else {
             numberOfPassengers = Integer.parseInt(args[3]);
-            AllSupplier.getAllSupplierResult(urlApi, pickup, dropoff, numberOfPassengers);
+            int finalNumberOfPassengers = numberOfPassengers;
+
+            if (args.length == 5) {
+                get("/all", (req, res)-> {
+                    res.type("application/json");
+                    return MapToJSON.jsonAll(AllSupplier.getAllSupplierResult(urlApi, finalPickup, finalDropoff, finalNumberOfPassengers));
+                });
+            } else {
+                AllSupplier.getAllSupplierResult(urlApi, pickup, dropoff, numberOfPassengers);
+            }
         }
     }
 }
