@@ -5,11 +5,10 @@ public class Main {
     public static void main(String[] args) {
 
         String supplier = "", pickup = "", dropoff = "", urlApi = "https://techtest.rideways.com/";
-        int numberOfPassengers = 0;
+        int numberOfPassengers;
 
-        if (args.length == 0) {
-            System.out.println("Provide name of rider/riders (dave or all). Pickup location. Dropoff location. Number " +
-                    "of passengers.");
+        if (args.length < 3) {
+            System.out.println("It was no possible to start the application. Follow the instructions inside the README file.");
             System.exit(0);
         } else {
             supplier = args[0].toLowerCase();
@@ -18,18 +17,19 @@ public class Main {
         }
 
         if (supplier.contains("dave")) {
-            if (args.length == 4) {
+            // call only dave algorithm
+            if (args.length == 4)
                 APIRequest.callAPIDave(urlApi + supplier + "?pickup=" + pickup + "&dropoff=" + dropoff);
-            } else
+            else
                 Dave.getDaveResults(urlApi + supplier + "?pickup=" + pickup + "&dropoff=" + dropoff);
         } else {
+            // call algorithm responsible for all the suppliers
             numberOfPassengers = Integer.parseInt(args[3]);
 
-            if (args.length == 5) {
+            if (args.length == 5)
                 APIRequest.callAPIAll(urlApi, pickup, dropoff, numberOfPassengers);
-            } else {
+            else
                 AllSupplier.getAllSupplierResult(urlApi, pickup, dropoff, numberOfPassengers);
-            }
         }
     }
 }
