@@ -18,13 +18,11 @@ class AllSupplier {
             Map.of("STANDARD", 4, "EXECUTIVE", 4, "LUXURY", 4, "PEOPLE_CARRIER", 6, "LUXURY_PEOPLE_CARRIER", 6, "MINIBUS", 16);
     private static int passengers = 0;
     private static Map<String, Pair<String, Integer>> map = new HashMap<>();
-    private static int currentSupplier = 0;
 
     static Map<String, Pair<String, Integer>> getAllSupplierResult(final String urlApi, final String pickup, final String dropoff, final int numberOfPassengers) {
         for (int i = 0; i < supplier.length; i++) {
-            currentSupplier = i;
             passengers = numberOfPassengers;
-            parseJSON(getJSONFromUrl(urlApi + supplier[i] + "?pickup=" + pickup + "&dropoff=" + dropoff, i));
+            parseJSON(getJSONFromUrl(urlApi + supplier[i] + "?pickup=" + pickup + "&dropoff=" + dropoff, i), i);
         }
 
         if (map.size() == 0)
@@ -36,7 +34,7 @@ class AllSupplier {
         return map;
     }
 
-    private static void parseJSON(final JSONObject jsonObject) {
+    private static void parseJSON(final JSONObject jsonObject, final int currentSupplier) {
         if (jsonObject != null) {
             JSONArray options = jsonObject.getJSONArray("options");
             for(Object o: options)
@@ -46,8 +44,8 @@ class AllSupplier {
 
                     if (carTypePassengers.containsKey(car_type)
                         && carTypePassengers.get(car_type) >= passengers) {
-                        if (map.containsKey(car_type)) {
-                            if (map.get(car_type).getValue() > price)
+                        if (map.containsKey(car_type)
+                            && map.get(car_type).getValue() > price) {
                                 map.replace(car_type, new Pair<>(supplier[currentSupplier], price));
                         } else
                             map.put(car_type, new Pair<>(supplier[currentSupplier], price));
@@ -59,34 +57,29 @@ class AllSupplier {
     private static JSONObject getJSONFromUrl(final String url, final int i) {
         try {
             URL urlForGetRequest = new URL(url);
-            String readLine = null;
+            String readLine;
 
             HttpURLConnection connection = (HttpURLConnection) urlForGetRequest.openConnection();
             connection.setRequestMethod("GET");
             connection.setRequestProperty("Content-Type", "application/json");
-            //connection.setConnectTimeout(5000);
             connection.setReadTimeout(READ_TIMEOUT);
 
-            int responseCode = connection.getResponseCode();
-            if (responseCode == HttpURLConnection.HTTP_OK) {
+            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 BufferedReader in = new BufferedReader(
                         new InputStreamReader(connection.getInputStream()));
+
                 StringBuilder response = new StringBuilder();
                 while ((readLine = in .readLine()) != null) {
                     response.append(readLine);
                 } in .close();
-                // print result
-                System.out.println("JSON String Result " + response.toString());
+
                 return new JSONObject(response.toString());
-                //GetAndPost.POSTRequest(response.toString());
             } else {
                 System.out.println("HTTP connection to " + supplier[i] + " did not work. His cars are not available.");
-                return null;
             }
         } catch (IOException e) {
             if (e instanceof SocketTimeoutException) {
                 System.out.println(supplier[i] + " is not taken into consideration due to lack of response. His cars are not available.");
-                return null;
             }
         }
         return null;
