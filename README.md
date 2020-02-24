@@ -29,5 +29,5 @@ all 51.470020,-0.454295 3.410632,-2.157533 3 api
 ```
 
 Then, using a browser, navigate to 
-* [http//localhost:4567/dave](http://localhost:4567/dave) or
-* [http//localhost:4567/all](http://localhost:4567/all)
+* [http://localhost:4567/dave](http://localhost:4567/dave) or
+* [http://localhost:4567/all](http://localhost:4567/all)
